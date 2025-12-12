@@ -32,7 +32,8 @@ public class UserMessageDao {
 
     }
 
-    public List<UserMessage> select(Connection connection, int num) {
+    // selectの引数にInteger型のidを追加
+	public List<UserMessage> select(Connection connection, Integer id, int num) {
 
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
@@ -50,9 +51,18 @@ public class UserMessageDao {
             sql.append("FROM messages ");
             sql.append("INNER JOIN users ");
             sql.append("ON messages.user_id = users.id ");
+            // idがnull以外の場合にユーザーを指定
+            if(id != null) {
+            	sql.append("WHERE messages.user_id = ? ");  // ?:バインド変数(SQLインジェクション対策)
+            }
             sql.append("ORDER BY created_date DESC limit " + num);
 
             ps = connection.prepareStatement(sql.toString());
+
+            // messages.user_idにidをセット
+            if(id != null) {
+            	ps.setInt(1, id);
+            }
 
             ResultSet rs = ps.executeQuery();
 

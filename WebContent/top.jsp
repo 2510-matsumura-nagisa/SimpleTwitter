@@ -57,7 +57,12 @@
 			    <c:forEach items="${messages}" var="message">
 			        <div class="message">
 			            <div class="account-name">
-			                <span class="account"><c:out value="${message.account}" /></span>
+			                <span class="account">
+			                	<!-- アカウント名に対応するユーザーのつぶやきのみをを表示するリンクを追加 -->
+			                	<a href="./?user_id=<c:out value="${message.userId}"/> ">
+			                		<c:out value="${message.account}" />
+			                	</a>
+			                </span>
 			                <span class="name"><c:out value="${message.name}" /></span>
 			            </div>
 			            <div class="text"><c:out value="${message.text}" /></div>
