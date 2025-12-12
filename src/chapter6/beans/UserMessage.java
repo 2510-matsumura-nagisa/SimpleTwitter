@@ -33,7 +33,7 @@ public class UserMessage implements Serializable {
     }
 
     public void setName(String name) {
-        this.account = name;
+        this.name = name;
     }
 
     public int getUserId() {
