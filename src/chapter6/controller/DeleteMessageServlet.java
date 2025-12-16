@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import chapter6.beans.Message;
 import chapter6.beans.User;
 import chapter6.logging.InitApplication;
 import chapter6.service.MessageService;
@@ -33,8 +34,11 @@ public class DeleteMessageServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
 
+
         // ログインユーザー取得（session）
         User user = (User) session.getAttribute("loginUser");
+
+        // ログインしていない場合リダイレクト
         if (user == null) {
             response.sendRedirect("./");
             return;
@@ -43,8 +47,17 @@ public class DeleteMessageServlet extends HttpServlet {
         // つぶやきID取得
         int messageId = Integer.parseInt(request.getParameter("messageId"));
 
+        MessageService messageService = new MessageService();
+        Message message = messageService.select(messageId);
+
+		// つぶやきが存在しない場合、投稿者とログインユーザーが一致しない場合リダイレクト
+        if (message == null || message.getUserId() != user.getId()) {
+            response.sendRedirect("./");
+            return;
+        }
+
         // 削除処理
-        new MessageService().delete(messageId, user.getId());
+        messageService.delete(messageId);
 
         // 一覧へリダイレクト
         response.sendRedirect("./");
