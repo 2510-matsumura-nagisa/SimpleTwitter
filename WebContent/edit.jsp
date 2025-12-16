@@ -43,45 +43,14 @@
 			</c:if>
 
 			<div class="form-area">
-			    <c:if test="${ isShowMessageForm }">
-			        <form action="message" method="post">
-			            いま、どうしてる？<br />
-			            <textarea name="text" cols="100" rows="5" class="tweet-box"></textarea>
-			            <br />
-			            <input type="submit" value="つぶやく">（140文字まで）
-			        </form>
-			    </c:if>
-			</div>
-
-			<div class="messages">
-			    <c:forEach items="${messages}" var="message">
-			        <div class="message">
-			            <div class="account-name">
-			                <span class="account">
-			                	<!-- アカウント名に対応するユーザーのつぶやきのみをを表示するリンクを追加 -->
-			                	<a href="./?user_id=<c:out value="${message.userId}"/> ">
-			                		<c:out value="${message.account}" />
-			                	</a>
-			                </span>
-			                <span class="name"><c:out value="${message.name}" /></span>
-			            </div>
-			            <div class="text"><c:out value="${message.text}" /></div>
-			            <div class="date"><fmt:formatDate value="${message.createdDate}" pattern="yyyy/MM/dd HH:mm:ss" /></div>
-			        </div>
-			        <c:if test="${ message.userId == loginUser.id }">
-						<form action="edit" method="get">
-							<input type="hidden" name="messageId" value="${message.id}">
-							<input type="submit" value="編集">
-						</form>
-			        	<form action="deleteMessage" method="post">
-			        		<input type="hidden" name="messageId" value="${message.id}">
-			        		<input type="submit" value="削除">
-			        	</form>
-			        </c:if>
-			    </c:forEach>
+			    <form action="${pageContext.request.contextPath}/edit" method="post">
+			        <textarea name="text" cols="100" rows="5" class="tweet-box"><c:out value="${message.text}" /></textarea>
+			        <input type="hidden" name="messageId" value="${message.id}">
+			        <input type="submit" value="更新">（140文字まで）
+			    </form>
 			</div>
 
             <div class="copyright"> Copyright(c)YourName</div>
-        	</div>
-    </body>
+        </div>
+	</body>
 </html>
