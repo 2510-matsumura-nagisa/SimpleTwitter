@@ -45,12 +45,14 @@ public class EditServlet extends HttpServlet {
   	        " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
 
-  	  HttpSession session = request.getSession();
   	  List<String> errorMessages = new ArrayList<String>();
       String id = request.getParameter("messageId");
+      HttpSession session = request.getSession();
 
-		if (StringUtils.isBlank(id) || !id.matches("^[0-9]+$")) {
-			errorMessages.add("パラメータが不正です");
+
+      // URLのidが空白または数字では無い場合にエラーメッセージを表示
+	  if (StringUtils.isBlank(id) || !id.matches("^[0-9]+$")) {
+			errorMessages.add("不正なパラメータが入力されました");
 			session.setAttribute("errorMessages", errorMessages);
 			response.sendRedirect("./");
 			return;
@@ -58,6 +60,14 @@ public class EditServlet extends HttpServlet {
 
       int messageId = Integer.parseInt(id);
       Message message = new MessageService().select(messageId);
+
+      // URLのidのつぶやきが存在しない場合にエラーメッセージを表示
+	  if(message == null) {
+			errorMessages.add("不正なパラメータが入力されました");
+			session.setAttribute("errorMessages", errorMessages);
+			response.sendRedirect("./");
+			return;
+		}
 
       request.setAttribute("message", message);
       request.getRequestDispatcher("edit.jsp").forward(request,response);
@@ -100,15 +110,15 @@ public class EditServlet extends HttpServlet {
 	  log.info(new Object(){}.getClass().getEnclosingClass().getName() +
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
-        if (StringUtils.isBlank(text)) {
-            errorMessages.add("メッセージを入力してください");
-        } else if (140 < text.length()) {
+      if (StringUtils.isBlank(text)) {
+            errorMessages.add("入力してください");
+      } else if (140 < text.length()) {
             errorMessages.add("140文字以下で入力してください");
-        }
+      }
 
-        if (errorMessages.size() != 0) {
+      if (errorMessages.size() != 0) {
             return false;
-        }
-        return true;
+      }
+      return true;
     }
 }
