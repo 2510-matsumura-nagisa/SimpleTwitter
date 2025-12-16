@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 
 import chapter6.beans.Message;
+import chapter6.beans.User;
 import chapter6.logging.InitApplication;
 import chapter6.service.MessageService;
 
@@ -68,6 +69,12 @@ public class EditServlet extends HttpServlet {
 			response.sendRedirect("./");
 			return;
 		}
+
+	  User loginUser = (User) session.getAttribute("loginUser");
+	  if (loginUser == null || message.getUserId() != loginUser.getId()) {
+	      response.sendRedirect("./");
+	      return;
+	  }
 
       request.setAttribute("message", message);
       request.getRequestDispatcher("edit.jsp").forward(request,response);
