@@ -174,7 +174,7 @@ public class MessageService {
 
 		try {
 			connection = getConnection();
-			new MessageDao().update(connection, message.getId(), message.getText());
+			new MessageDao().update(connection, message);
 			commit(connection);
 		} catch (RuntimeException e) {
 			rollback(connection);

@@ -82,6 +82,6 @@
 			</div>
 
             <div class="copyright"> Copyright(c)YourName</div>
-        	</div>
+        </div>
     </body>
 </html>
