@@ -106,10 +106,22 @@ a.profile .account {
 	font: small-caption;
 }
 
-.message .date {
+.message .date .comment {
 	font-weight: lighter;
 	color: gray;
 	font: small-caption;
+}
+
+.comment-box  {
+	width: 780px;
+	height: 56px;
+}
+
+.comment-form {
+	margin-top: 00px;
+	margin-right: 00px;
+	margin-bottom: 00px;
+	margin-left: 00px;
 }
 
 .copyright {

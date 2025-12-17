@@ -3,12 +3,13 @@ package chapter6.beans;
 import java.io.Serializable;
 import java.util.Date;
 
-public class UserMessage implements Serializable {
+public class UserComment implements Serializable {
 
     private int id;
     private String account;
     private String name;
     private int userId;
+    private int messageId;
     private String text;
     private Date createdDate;
 
@@ -44,6 +45,14 @@ public class UserMessage implements Serializable {
         this.userId = userId;
     }
 
+    public int getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(int messageId) {
+        this.messageId = messageId;
+    }
+
     public String getText() {
         return text;
     }
@@ -59,5 +68,4 @@ public class UserMessage implements Serializable {
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
-
 }

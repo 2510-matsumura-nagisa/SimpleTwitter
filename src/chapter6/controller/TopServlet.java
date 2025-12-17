@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import chapter6.beans.User;
+import chapter6.beans.UserComment;
 import chapter6.beans.UserMessage;
 import chapter6.logging.InitApplication;
+import chapter6.service.CommentService;
 import chapter6.service.MessageService;
 
 
@@ -43,18 +45,23 @@ public class TopServlet extends HttpServlet {
         " : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
 	  boolean isShowMessageForm = false;
+	  boolean isShowCommentForm = false;
 	  User user = (User) request.getSession().getAttribute("loginUser");
       if (user != null) {
           isShowMessageForm = true;
+          isShowCommentForm = true;
       }
 
       // String型のuser_idの値をJSPから受け取るように設定
       String userId = request.getParameter("user_id");
       // selectに引数としてString型のuser_idを追加
       List<UserMessage> messages = new MessageService().select(userId);
+      List<UserComment> comments = new CommentService().select();
 
       request.setAttribute("messages", messages);
+      request.setAttribute("comments", comments);
       request.setAttribute("isShowMessageForm", isShowMessageForm);
+      request.setAttribute("isShowCommentForm", isShowCommentForm);
       request.getRequestDispatcher("/top.jsp").forward(request, response);
     }
 }
