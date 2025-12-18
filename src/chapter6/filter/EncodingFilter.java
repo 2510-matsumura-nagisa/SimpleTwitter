@@ -10,6 +10,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 
+/**
+ * Servlet Filter implementation class EncodingFilter
+ */
 @WebFilter("/*")
 public class EncodingFilter implements Filter {
 
@@ -20,26 +23,31 @@ public class EncodingFilter implements Filter {
 	private String encoding;
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
 
 		if (request.getCharacterEncoding() == null) {
 			request.setCharacterEncoding(encoding);
 		}
 
-		chain.doFilter(request, response); // サーブレットを実行
+		System.out.println("EncodingFilter# 文字エンコーディングを設定しました。");
 
+		// サーブレットを実行
+		chain.doFilter(request,  response);
+
+		System.out.println("EncodingFilter# chain.doFilterが実行されました。");
 	}
+
 
 	@Override
 	public void init(FilterConfig config) {
 		encoding = config.getInitParameter(INIT_PARAMETER_NAME_ENCODING);
+
 		if (encoding == null) {
 			System.out.println("EncodingFilter# デフォルトのエンコーディング(UTF-8)を利用します。");
 			encoding = DEFAULT_ENCODING;
 		} else {
-			System.out.println("EncodingFilter# 設定されたエンコーディング(" + encoding
-					+ ")を利用します。。");
+			System.out.println("EncodingFilter# 設定されたエンコーディング(" + encoding + ")を利用します。");
 		}
 	}
 

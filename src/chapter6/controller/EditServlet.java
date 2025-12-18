@@ -72,7 +72,7 @@ public class EditServlet extends HttpServlet {
 
 		// つぶやきの投稿者以外はトップ画面にリダイレクト
 		User user = (User) session.getAttribute("loginUser");
-		if (user == null || message.getUserId() != user.getId()) {
+		if (message.getUserId() != user.getId()) {
 			response.sendRedirect("./");
 			return;
 		}

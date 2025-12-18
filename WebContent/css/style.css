@@ -12,7 +12,8 @@ body {
 	width: 800px;
 }
 
-.tweet-box {
+.tweet-box,
+.comment-box {
 	width: 780px;
 	height: 56px;
 }
@@ -106,15 +107,11 @@ a.profile .account {
 	font: small-caption;
 }
 
-.message .date .comment {
+.message .date,
+.comment .date {
 	font-weight: lighter;
 	color: gray;
 	font: small-caption;
-}
-
-.comment-box  {
-	width: 780px;
-	height: 56px;
 }
 
 .comment-form {

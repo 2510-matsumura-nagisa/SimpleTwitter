@@ -19,6 +19,7 @@
                             <li><c:out value="${errorMessage}" />
                         </c:forEach>
                     </ul>
+                    <c:remove var="errorMessages" />
                 </div>
             </c:if>
 
