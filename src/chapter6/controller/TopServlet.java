@@ -52,14 +52,23 @@ public class TopServlet extends HttpServlet {
           isShowCommentForm = true;
       }
 
-      // String型のuser_idの値をJSPから受け取るように設定
+      // String型のuser_idの値をJSPから受け取るように設定（ユーザーリンク）
       String userId = request.getParameter("user_id");
+
+     // String型のstart,endの値をJSPから受け取るように設定（絞り込み）
+      String start = request.getParameter("start");
+      String end = request.getParameter("end");
       // selectに引数としてString型のuser_idを追加
-      List<UserMessage> messages = new MessageService().select(userId);
+      List<UserMessage> messages = new MessageService().select(userId, start, end);
+      // 返信の取得（引数なし）
       List<UserComment> comments = new CommentService().select();
 
       request.setAttribute("messages", messages);
       request.setAttribute("comments", comments);
+      // 開始日～終了日の表示
+      request.setAttribute("start", start);
+      request.setAttribute("end", end);
+      //メッセージフォームとコメントフォームの表示
       request.setAttribute("isShowMessageForm", isShowMessageForm);
       request.setAttribute("isShowCommentForm", isShowCommentForm);
       request.getRequestDispatcher("/top.jsp").forward(request, response);

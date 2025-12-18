@@ -4,6 +4,8 @@ import static chapter6.utils.CloseableUtil.*;
 import static chapter6.utils.DBUtil.*;
 
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,7 +62,7 @@ public class MessageService {
 	}
 
 	// selectの引数にString型のuserIdを追加
-	public List<UserMessage> select(String userId) {
+	public List<UserMessage> select(String userId, String start, String end) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
@@ -70,6 +72,7 @@ public class MessageService {
 		final int LIMIT_NUM = 1000;
 
 		Connection connection = null;
+
 		try {
 			connection = getConnection();
 
@@ -80,8 +83,31 @@ public class MessageService {
 				id = Integer.parseInt(userId);
 			}
 
-			// messageDao.selectに引数としてInteger型のidを追加
-			List<UserMessage> messages = new UserMessageDao().select(connection, id, LIMIT_NUM);
+			// 日付の初期化
+			String startDate = null;
+			String endDate = null;
+
+
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+			// 開始日が空欄の場合
+			if (StringUtils.isBlank(start)) {
+				startDate = "2020/01/01 00:00:00";
+			// 開始日が入力されている場合
+			} else {
+				startDate = start + " 00:00:00";
+			}
+			// 終了日が空欄の場合
+			if (StringUtils.isBlank(end)) {
+				Date nowDate = new Date();
+				endDate = simpleDateFormat.format(nowDate);
+			// 終了日が入力されている場合
+			} else {
+				endDate = end + " 23:59:59";
+			}
+
+			// UsermessageDao.selectに引数を追加
+			List<UserMessage> messages = new UserMessageDao().select(connection, id, startDate, endDate, LIMIT_NUM);
 
 			commit(connection);
 			return messages;
