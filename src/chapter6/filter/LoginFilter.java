@@ -19,7 +19,7 @@ import chapter6.beans.User;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter(urlPatterns = { "/edit", "/setting", "/deleteMessage" })
+@WebFilter(urlPatterns = { "/edit", "/setting" })
 public class LoginFilter implements Filter {
 
 	@Override
@@ -27,21 +27,21 @@ public class LoginFilter implements Filter {
 			throws IOException, ServletException {
 
 		// 型変換(汎用→Http専用)
-	    HttpServletRequest httpRequest = (HttpServletRequest) request;
-	    HttpServletResponse httpResponse = (HttpServletResponse) response;
-	    List<String> errorMessages = new ArrayList<String>();
+		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		HttpServletResponse httpResponse = (HttpServletResponse) response;
+		List<String> errorMessages = new ArrayList<String>();
 
 		User user = (User) httpRequest.getSession().getAttribute("loginUser");
 
 		// ログインユーザーが存在すれば、サーブレットを実行
 		if (user != null) {
-	    	chain.doFilter(request,  response);
-	    // 存在しなければ、エラーメッセージ+ログイン画面にリダイレクト
-	    } else {
-	    	errorMessages.add("ログインしてください") ;
-            httpRequest.getSession().setAttribute("errorMessages", errorMessages );
-            httpResponse.sendRedirect("./login");
-	    }
+			chain.doFilter(request, response);
+		// 存在しなければ、エラーメッセージ+ログイン画面にリダイレクト
+		} else {
+			errorMessages.add("ログインしてください");
+			httpRequest.getSession().setAttribute("errorMessages", errorMessages);
+			httpResponse.sendRedirect("./login");
+		}
 
 	}
 

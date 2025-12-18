@@ -33,11 +33,10 @@ public class EncodingFilter implements Filter {
 		System.out.println("EncodingFilter# 文字エンコーディングを設定しました。");
 
 		// サーブレットを実行
-		chain.doFilter(request,  response);
+		chain.doFilter(request, response);
 
 		System.out.println("EncodingFilter# chain.doFilterが実行されました。");
 	}
-
 
 	@Override
 	public void init(FilterConfig config) {
