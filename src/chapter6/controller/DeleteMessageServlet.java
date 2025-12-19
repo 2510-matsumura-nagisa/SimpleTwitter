@@ -38,6 +38,12 @@ public class DeleteMessageServlet extends HttpServlet {
         // ログインユーザー取得（session）
         User user = (User) session.getAttribute("loginUser");
 
+        // ログインしていない場合リダイレクト
+        if (user == null) {
+            response.sendRedirect("./");
+            return;
+        }
+
         // つぶやきID取得
         int messageId = Integer.parseInt(request.getParameter("messageId"));
 

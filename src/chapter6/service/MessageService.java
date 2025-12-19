@@ -87,17 +87,17 @@ public class MessageService {
 			String startDate = null;
 			String endDate = null;
 
-
+			// Date→String
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
-			// 開始日が空欄の場合
+			// 開始日が空欄の場合→サービス開始日より前の日時をデフォルトに
 			if (StringUtils.isBlank(start)) {
 				startDate = "2020/01/01 00:00:00";
 			// 開始日が入力されている場合
 			} else {
 				startDate = start + " 00:00:00";
 			}
-			// 終了日が空欄の場合
+			// 終了日が空欄の場合→現在時刻をデフォルトに
 			if (StringUtils.isBlank(end)) {
 				Date nowDate = new Date();
 				endDate = simpleDateFormat.format(nowDate);

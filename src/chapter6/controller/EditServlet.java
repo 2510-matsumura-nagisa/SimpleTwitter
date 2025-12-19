@@ -98,12 +98,6 @@ public class EditServlet extends HttpServlet {
 		// ログインユーザー取得（session）
 		User user = (User) session.getAttribute("loginUser");
 
-		// ログインしていない場合トップ画面にリダイレクト
-		if (user == null) {
-			response.sendRedirect("./");
-			return;
-		}
-
 		// つぶやきのid,text取得
 		String id = request.getParameter("messageId");
 

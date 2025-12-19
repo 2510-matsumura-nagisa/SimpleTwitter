@@ -57,9 +57,8 @@ public class UserMessageDao {
 			// idがnull以外の場合にユーザーを指定(ユーザーのリンクを押下した場合)
 			if (id != null) {
 				sql.append("WHERE messages.user_id = ? "); // ?:バインド変数(SQLインジェクション対策)
-			}
 			// createDateがnull以外の場合、日付の範囲を指定(カレンダーで日付を指定した場合)
-			if (id == null && startDate != null && endDate != null) {
+			}else if (id == null && startDate != null && endDate != null) {
 				sql.append("WHERE messages.created_date BETWEEN ? ");
 				sql.append("AND ? ");
 			}
@@ -71,10 +70,8 @@ public class UserMessageDao {
 			// messages.user_idにidをセット
 			if (id != null) {
 				ps.setInt(1, id);
-			}
-
 			// message.created_dateにstartCreatedDate, endCreatedDateをセット
-			if (id == null && startDate != null && endDate != null) {
+			}else if (id == null && startDate != null && endDate != null) {
 				ps.setString(1, startDate);
 				ps.setString(2, endDate);
 			}
