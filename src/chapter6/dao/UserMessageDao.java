@@ -54,26 +54,25 @@ public class UserMessageDao {
 			sql.append("FROM messages ");
 			sql.append("INNER JOIN users ");
 			sql.append("ON messages.user_id = users.id ");
+			// startDate,endDateはデフォルトで設定される(nullではない)ため、if文は不要
+			sql.append("WHERE messages.created_date BETWEEN ?");
+			sql.append("	AND ? ");
+
 			// idがnull以外の場合にユーザーを指定(ユーザーのリンクを押下した場合)
 			if (id != null) {
-				sql.append("WHERE messages.user_id = ? "); // ?:バインド変数(SQLインジェクション対策)
-			// createDateがnull以外の場合、日付の範囲を指定(カレンダーで日付を指定した場合)
-			}else if (id == null && startDate != null && endDate != null) {
-				sql.append("WHERE messages.created_date BETWEEN ? ");
-				sql.append("AND ? ");
+				sql.append("AND messages.user_id = ? "); // ?:バインド変数(SQLインジェクション対策)
 			}
 
 			sql.append("ORDER BY created_date DESC limit " + num);
 
 			ps = connection.prepareStatement(sql.toString());
 
-			// messages.user_idにidをセット
+			ps.setString(1, startDate);
+			ps.setString(2, endDate);
+
+			// idがnull以外の場合にmessages.user_idにidをセット
 			if (id != null) {
-				ps.setInt(1, id);
-			// message.created_dateにstartCreatedDate, endCreatedDateをセット
-			}else if (id == null && startDate != null && endDate != null) {
-				ps.setString(1, startDate);
-				ps.setString(2, endDate);
+				ps.setInt(3, id);
 			}
 
 			ResultSet rs = ps.executeQuery();
