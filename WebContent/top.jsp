@@ -9,6 +9,9 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>簡易Twitter</title>
 		<link href="./css/style.css" rel="stylesheet" type="text/css">
+		<script src="./js/vendor/jquery-3.7.1.min.js"></script>
+		<script src="./js/vendor/jquery-3.7.1.js"></script>
+		<script src="./js/main.js"></script>
 	</head>
 	<body>
 		<div class="main-contents">
@@ -91,7 +94,7 @@
 							<input type="hidden" name="messageId" value="${message.id}">
 							<input type="submit" value="編集">
 						</form>
-						<form action="deleteMessage" method="post">
+						<form action="deleteMessage" method="post" id ="deletecomment">
 							<input type="hidden" name="messageId" value="${message.id}">
 							<input type="submit" value="削除">
 						</form>
@@ -127,8 +130,8 @@
 					</div>
 				</c:forEach>
 			</div>
-
 			<div class="copyright">Copyright(c)YourName</div>
 		</div>
+
 	</body>
 </html>
